@@ -1,11 +1,10 @@
-using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using AoC.Common;
 using Point = AoC.Common.Point;
 
 namespace AoC.Solutions._2015;
 
-public partial class Day6(Day day) : Solution(day)
+public class Day6(Day day) : Solution(day)
 {
     public override long PartOne()
     {
@@ -103,7 +102,7 @@ public partial class Day6(Day day) : Solution(day)
     static List<int> ExtractNumbers(string input)
     {
         var numbers = new List<int>();
-        var matches = ExtractNumbersRegex().Matches(input);
+        var matches = RegexHelper.ExtractNumbersRegex().Matches(input);
 
         foreach (Match match in matches)
             numbers.Add(int.Parse(match.Value));
@@ -112,6 +111,5 @@ public partial class Day6(Day day) : Solution(day)
 
     }
 
-    [GeneratedRegex(@"\d+")]
-    private static partial Regex ExtractNumbersRegex();
+
 }
