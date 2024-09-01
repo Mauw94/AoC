@@ -1,7 +1,9 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace AoC.Common;
+using AoC.Common;
+
+namespace AoC.Solutions._2015;
 
 public class Day4(Day day) : Solution(day)
 {

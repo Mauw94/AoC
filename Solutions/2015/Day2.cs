@@ -1,5 +1,7 @@
 
-namespace AoC.Common;
+using AoC.Common;
+
+namespace AoC.Solutions._2015;
 
 public class Day2(Day day) : Solution(day)
 {
