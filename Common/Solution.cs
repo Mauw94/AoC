@@ -6,8 +6,8 @@ public abstract class Solution
 {
     public Solution(Day day)
     {
-        Task.Run(LoadInput);
         _day = day;
+        Task.Run(LoadInput).Wait();
     }
 
     protected List<string> Input = [];
