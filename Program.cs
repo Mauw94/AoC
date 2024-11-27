@@ -12,7 +12,8 @@ var solutions = new List<Solution>
     // new Day7(Day.Create(2015, 7)),
     // new Day8(Day.Create(2015, 8)),
     // new Day9(Day.Create(2015, 9)),
-    new Day10(Day.Create(2015, 10)),
+    // new Day10(Day.Create(2015, 10)),
+    new Day11(Day.Create(2015, 11)),
 };
 
 foreach (var solution in solutions)
