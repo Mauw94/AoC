@@ -19,7 +19,8 @@ if (args.Length == 0)
     // new Day10(Day.Create(2015, 10)),
     // new Day11(Day.Create(2015, 11)),
     // new Day12(Day.Create(2015, 12)),
-    new Day13(Day.Create(2015, 13)),
+    // new Day13(Day.Create(2015, 13)),
+    new Day14(Day.Create(2015, 14)),
 };
 
     foreach (var solution in solutions)
