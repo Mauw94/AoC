@@ -1,6 +1,7 @@
 using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 using AoC.Common;
+using AoC.Common.Lib;
 
 namespace AoC.Solutions._2015;
 

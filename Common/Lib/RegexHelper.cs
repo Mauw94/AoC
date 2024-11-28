@@ -1,7 +1,7 @@
 
 using System.Text.RegularExpressions;
 
-namespace AoC.Common;
+namespace AoC.Common.Lib;
 
 public static partial class RegexHelper
 {

@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using AoC.Common;
+using AoC.Common.Lib;
 using Point = AoC.Common.Point;
 
 namespace AoC.Solutions._2015;

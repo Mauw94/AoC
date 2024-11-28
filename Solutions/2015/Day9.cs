@@ -1,4 +1,5 @@
 using AoC.Common;
+using AoC.Common.Lib;
 
 namespace AoC.Solutions._2015;
 
@@ -9,7 +10,7 @@ public class Day9(Day day) : Solution(day)
         var distances = ParseInputToGraph();
         var locations = distances.Keys.Select(x => x.Item1).Distinct().ToList();
 
-        var permutations = GetPermutations(locations, locations.Count);
+        var permutations = ListExtensions.GetPermutations(locations, locations.Count);
         var shortestDistance = int.MaxValue;
 
         foreach (var perm in permutations)
@@ -27,7 +28,7 @@ public class Day9(Day day) : Solution(day)
         var distances = ParseInputToGraph();
         var locations = distances.Keys.Select(x => x.Item1).Distinct().ToList();
 
-        var permutations = GetPermutations(locations, locations.Count);
+        var permutations = ListExtensions.GetPermutations(locations, locations.Count);
         var longestDistance = int.MinValue;
 
         foreach (var perm in permutations)
@@ -60,15 +61,6 @@ public class Day9(Day day) : Solution(day)
         }
 
         return distances;
-    }
-
-    private static IEnumerable<List<T>> GetPermutations<T>(List<T> list, int length)
-    {
-        if (length == 1) return list.Select(t => new List<T> { t });
-
-        return GetPermutations(list, length - 1)
-            .SelectMany(t => list.Where(e => !t.Contains(e)),
-                (t1, t2) => t1.Concat([t2]).ToList());
     }
 
     private static int CalculateDistance(List<string> route, Dictionary<(string, string), int> distances)
