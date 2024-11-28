@@ -102,7 +102,7 @@ public class Day6(Day day) : Solution(day)
     static List<int> ExtractNumbers(string input)
     {
         var numbers = new List<int>();
-        var matches = RegexHelper.ExtractNumbersRegex().Matches(input);
+        var matches = RegexHelper.ExtractPositiveNumbersRegex().Matches(input);
 
         foreach (Match match in matches)
             numbers.Add(int.Parse(match.Value));

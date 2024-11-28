@@ -6,5 +6,8 @@ namespace AoC.Common;
 public static partial class RegexHelper
 {
     [GeneratedRegex(@"\d+")]
-    public static partial Regex ExtractNumbersRegex();
+    public static partial Regex ExtractPositiveNumbersRegex();
+
+    [GeneratedRegex(@"[+-]?\d+")]
+    public static partial Regex ExtractAllNumbersRegex();
 }
