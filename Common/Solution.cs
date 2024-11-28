@@ -2,7 +2,7 @@ using System.Diagnostics;
 
 namespace AoC.Common;
 
-public abstract class Solution
+public abstract class Solution : IDaySolution
 {
     public Solution(Day day)
     {

@@ -1,0 +1,16 @@
+using AoC.Common;
+
+namespace AoC.Solutions._[Year];
+
+public class Day[Day_Nr](Day day) : Solution(day)
+{
+    public override long PartOne()
+    {
+        throw new NotImplementedException();
+    }
+
+    public override long PartTwo()
+    {
+        throw new NotImplementedException();
+    }
+}
