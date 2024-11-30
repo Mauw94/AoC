@@ -1,14 +1,22 @@
 using AoC.Common;
+using AoC.Common.Lib;
 
 namespace AoC.Solutions._2015;
 
+class Light(bool isOn) : IPoint
+{
+    public bool IsOn = isOn;
+}
+
 public class Day18(Day day) : Solution(day)
 {
+
     public override long PartOne()
     {
         var grid = ParseGrid(Input);
 
-        ExecuteSteps(grid, 100);
+        VisualizeGrid(grid);
+        ExecuteSteps(grid, 100, visualizeGrid: false);
         return CountTotalLightsOn(grid);
     }
 
@@ -18,78 +26,51 @@ public class Day18(Day day) : Solution(day)
         var cornerLights = new List<(int x, int y)>
         {
             (0, 0),
-            (0, grid.GetLength(0) - 1),
-            (grid.GetLength(0) - 1, 0),
-            (grid.GetLength(0) - 1, grid.GetLength(0) - 1)
+            (0, grid.Height - 1),
+            (grid.Width - 1, 0),
+            (grid.Width - 1, grid.Height - 1)
         };
 
         ToggleCornerLights(grid, cornerLights);
 
-        ExecuteSteps(grid, 100, visualizeGrid: true, isPart2: true);
+        ExecuteSteps(grid, 100, visualizeGrid: false, isPart2: true);
         return CountTotalLightsOn(grid);
     }
 
-    static void ToggleCornerLights(GridP[,] grid, List<(int x, int y)> cornerLights)
+    static void ToggleCornerLights(Grid2d<Light> grid, List<(int x, int y)> cornerLights)
     {
         foreach (var (x, y) in cornerLights)
-            grid[y, x].IsOn = true;
+        {
+            grid.GetPoint(x, y).IsOn = true;
+        }
     }
 
-
-    static void ExecuteSteps(GridP[,] grid, int steps, bool visualizeGrid = false, bool isPart2 = false)
+    static void ExecuteSteps(Grid2d<Light> grid, int steps, bool visualizeGrid = false, bool isPart2 = false)
     {
         for (int i = 0; i < steps; i++)
         {
             var lightsToToggle = GetLightsToToggle(grid);
-            ToggleLights(grid, lightsToToggle, isPart2: true);
+            ToggleLights(grid, lightsToToggle, isPart2);
 
             if (visualizeGrid)
                 VisualizeGrid(grid);
         }
     }
 
-    static void VisualizeGrid(GridP[,] grid)
-    {
-        for (int y = 0; y < grid.GetLength(0); y++)
-        {
-            Console.WriteLine();
-            for (int x = 0; x < grid.GetLength(1); x++)
-            {
-                if (grid[y, x].IsOn)
-                    Console.Write('#');
-                else
-                    Console.Write('.');
-            }
-        }
-        Console.WriteLine("\n");
-    }
-
-    static int CountTotalLightsOn(GridP[,] grid)
-    {
-        var totalOn = 0;
-        for (int y = 0; y < grid.GetLength(0); y++)
-            for (int x = 0; x < grid.GetLength(1); x++)
-            {
-                if (grid[y, x].IsOn) totalOn++;
-            }
-
-        return totalOn;
-    }
-
-    static List<(int x, int y)> GetLightsToToggle(GridP[,] grid)
+    static List<(int x, int y)> GetLightsToToggle(Grid2d<Light> grid)
     {
         var pointsToToggle = new List<(int x, int y)>();
 
-        for (int y = 0; y < grid.GetLength(0); y++)
-            for (int x = 0; x < grid.GetLength(1); x++)
+        for (int y = 0; y < grid.Height; y++)
+            for (int x = 0; x < grid.Width; x++)
             {
-                var neighbours = GetNeighbours(x, y, grid.GetLength(0), grid.GetLength(1));
+                var neighbours = grid.GetNeighbours(x, y, includeDiagonal: true);
 
-                if (grid[y, x].IsOn && !RangeNeighboursOn(grid, neighbours, (2, 3)))
+                if (grid.GetPoint(x, y).IsOn && !RangeNeighboursOn(grid, neighbours, (2, 3)))
                 {
                     pointsToToggle.Add((x, y));
                 }
-                else if (!grid[y, x].IsOn && ExactlyNeighboursOn(grid, neighbours, 3))
+                else if (!grid.GetPoint(x, y).IsOn && ExactlyNeighboursOn(grid, neighbours, 3))
                 {
                     pointsToToggle.Add((x, y));
                 }
@@ -98,81 +79,87 @@ public class Day18(Day day) : Solution(day)
         return pointsToToggle;
     }
 
-    static void ToggleLights(GridP[,] grid, List<(int x, int y)> pointsToToggle, bool isPart2 = false)
+    static void ToggleLights(Grid2d<Light> grid, List<(int x, int y)> pointsToToggle, bool isPart2 = false)
     {
         foreach (var (x, y) in pointsToToggle)
         {
             if (isPart2)
             {
                 if (x == 0 && y == 0) continue;
-                if (x == 0 && y == grid.GetLength(0) - 1) continue;
-                if (x == grid.GetLength(0) - 1 && y == grid.GetLength(0) - 1) continue;
-                if (x == grid.GetLength(0) - 1 && y == 0) continue;
+                if (x == 0 && y == grid.Height - 1) continue;
+                if (x == grid.Width - 1 && y == grid.Height - 1) continue;
+                if (x == grid.Width - 1 && y == 0) continue;
             }
 
-            grid[y, x].IsOn = !grid[y, x].IsOn;
+            grid.GetPoint(x, y).IsOn = !grid.GetPoint(x, y).IsOn;
         }
     }
 
-    static bool ExactlyNeighboursOn(GridP[,] grid, List<(int x, int y)> neighbours, int maxNeighboursOn)
+    static bool ExactlyNeighboursOn(Grid2d<Light> grid, List<(int x, int y)> neighbours, int maxNeighboursOn)
     {
         var amountOfNeighboursOn = 0;
 
         foreach (var (x, y) in neighbours)
         {
-            if (grid[y, x].IsOn)
+            if (grid.GetPoint(x, y).IsOn)
                 amountOfNeighboursOn++;
         }
 
         return amountOfNeighboursOn == maxNeighboursOn;
     }
 
-    static bool RangeNeighboursOn(GridP[,] grid, List<(int x, int y)> neighbours, (int min, int max) range)
+    static bool RangeNeighboursOn(Grid2d<Light> grid, List<(int x, int y)> neighbours, (int min, int max) range)
     {
         var amountOfNeighboursOn = 0;
 
         foreach (var (x, y) in neighbours)
         {
-            if (grid[y, x].IsOn)
+            if (grid.GetPoint(x, y).IsOn)
                 amountOfNeighboursOn++;
         }
 
         return amountOfNeighboursOn >= range.min && amountOfNeighboursOn <= range.max;
     }
 
-    static GridP[,] ParseGrid(List<string> input)
+    static void VisualizeGrid(Grid2d<Light> grid)
     {
-        var grid = new GridP[input.Count, input[0].Length];
+        for (int y = 0; y < grid.Height; y++)
+        {
+            Console.WriteLine();
+            for (int x = 0; x < grid.Width; x++)
+            {
+                if (grid.GetPoint(x, y).IsOn)
+                    Console.Write('#');
+                else
+                    Console.Write('.');
+            }
+        }
+        Console.WriteLine("\n");
+    }
+
+    static int CountTotalLightsOn(Grid2d<Light> grid)
+    {
+        var totalOn = 0;
+        for (int y = 0; y < grid.Height; y++)
+            for (int x = 0; x < grid.Width; x++)
+            {
+                if (grid.GetPoint(x, y).IsOn) totalOn++;
+            }
+
+        return totalOn;
+    }
+
+    static Grid2d<Light> ParseGrid(List<string> input)
+    {
+        var grid = new Grid2d<Light>(input.Count, input[0].Length);
 
         for (int y = 0; y < input.Count; y++)
             for (int x = 0; x < input[y].Length; x++)
             {
                 var isOn = input[y][x] == '#';
-                var point = new GridP(x, y, isOn);
-                grid[y, x] = point;
+                grid.SetPoint(x, y, new Light(isOn));
             }
 
         return grid;
     }
-
-    static List<(int x, int y)> GetNeighbours(int x, int y, int maxX, int maxY)
-    {
-        var neighbours = new List<(int x, int y)>
-        {
-            (x - 1, y),
-            (x + 1, y),
-            (x - 1, y - 1),
-            (x + 1, y - 1),
-            (x - 1, y + 1),
-            (x + 1, y + 1),
-            (x, y - 1),
-            (x, y + 1)
-        };
-
-        return neighbours
-            .Where(n => n.x >= 0 && n.y >= 0 && n.x < maxX && n.y < maxY)
-            .ToList();
-    }
 }
-
-record struct GridP(int X, int Y, bool IsOn);
