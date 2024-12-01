@@ -1,5 +1,6 @@
 ﻿using AoC.Common;
 using AoC.Solutions._2015;
+using AoC.Solutions._2024;
 
 // dotnet run
 if (args.Length == 0)
@@ -24,7 +25,9 @@ if (args.Length == 0)
         // new Day15(Day.Create(2015, 15)),
         // new Day16(Day.Create(2015, 16)),
         // new Day17(Day.Create(2015, 17)),
-        new Day18(Day.Create(2015, 18)),
+        // new Day18(Day.Create(2015, 18)),
+
+        new AoC.Solutions._2024.Day1(Day.Create(2024, 1))
     };
 
     foreach (var solution in solutions)
