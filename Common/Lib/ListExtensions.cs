@@ -10,4 +10,22 @@ public static class ListExtensions
             .SelectMany(t => list.Where(e => !t.Contains(e)),
                 (t1, t2) => t1.Concat([t2]).ToList());
     }
+
+    public static long Factor(this List<long> list)
+    {
+        long factor = 1;
+        foreach (var item in list)
+            factor *= item;
+
+        return factor;
+    }
+
+    public static int Factor(this List<int> list)
+    {
+        int factor = 1;
+        foreach (var item in list)
+            factor *= item;
+
+        return factor;
+    }
 }

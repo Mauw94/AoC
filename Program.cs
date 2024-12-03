@@ -28,7 +28,8 @@ if (args.Length == 0)
         // new Day18(Day.Create(2015, 18)),
 
         // new AoC.Solutions._2024.Day1(Day.Create(2024, 1)),
-        new AoC.Solutions._2024.Day2(Day.Create(2024, 2))
+        // new AoC.Solutions._2024.Day2(Day.Create(2024, 2)),
+        new AoC.Solutions._2024.Day3(Day.Create(2024, 3))
     };
 
     foreach (var solution in solutions)
