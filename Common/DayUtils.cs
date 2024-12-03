@@ -13,12 +13,19 @@ public static class DayUtils
         if (!File.Exists(filePath))
             throw new ArgumentException($"File {filePath} does not exist.");
 
-        var inputFolderPath = Path.Combine(currentDirectory, $"Inputs/{year}/{day}.txt");
-        File.Create(inputFolderPath);
+        var inputFolderPath = Path.Combine(currentDirectory, $"Inputs/{year}");
+        if (!Directory.Exists(inputFolderPath))
+            Directory.CreateDirectory(inputFolderPath);
+
+        File.Create(inputFolderPath + $"/{day}.txt");
 
         var content = await File.ReadAllTextAsync(filePath);
         content = content.Replace("[Year]", year.ToString());
         content = content.Replace("[Day_Nr]", day.ToString());
+
+        var solutionFolderPath = Path.Combine(currentDirectory, $"Solutions/{year}");
+        if (!Directory.Exists(solutionFolderPath))
+            Directory.CreateDirectory(solutionFolderPath);
 
         var outputPath = $"{currentDirectory}/Solutions/{year}/Day{day}.cs";
         await File.WriteAllTextAsync(outputPath, content);
