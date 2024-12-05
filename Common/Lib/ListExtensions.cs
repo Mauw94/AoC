@@ -28,4 +28,17 @@ public static class ListExtensions
 
         return factor;
     }
+
+    public static int GetMiddleItem(this List<int> list)
+    {
+        return list.Count % 2 == 0 ? list[list.Count / 2 - 1] : list[list.Count / 2];
+    }
+
+    public static void Swap<T>(this List<T> list, int index1, int index2)
+    {
+        if (index1 < 0 || index1 >= list.Count || index2 < 0 || index2 >= list.Count)
+            throw new ArgumentOutOfRangeException("Index out of range in the Swap extension method.");
+
+        (list[index2], list[index1]) = (list[index1], list[index2]);
+    }
 }
