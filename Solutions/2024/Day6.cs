@@ -21,6 +21,24 @@ public class Day6(Day day) : Solution(day)
         return CountBlockingPositions(grid, guardPos);
     }
 
+    static HashSet<(int, int)> GetAvailableBlockers(Grid2d<Point> grid, (int x, int y) guardPos)
+    {
+        HashSet<(int x, int y)> availableBlockers = [];
+
+        for (int y = 0; y < grid.Height; y++)
+        {
+            for (int x = 0; x < grid.Width; x++)
+            {
+                if (!grid.GetPoint(x, y).HasObstacle)
+                    availableBlockers.Add((x, y));
+
+                if (x == guardPos.x && y == guardPos.y) continue;
+            }
+        }
+
+        return availableBlockers;
+    }
+
     static int CountBlockingPositions(Grid2d<Point> grid, (int x, int y) guardPos)
     {
         var isStuck = false;
@@ -28,30 +46,18 @@ public class Day6(Day day) : Solution(day)
         var steps = 0;
         var direction = Direction.Up;
         var originalPos = guardPos;
-        HashSet<(int x, int y)> availableOptions = [];
         HashSet<(int x, int y)> blockingPositions = [];
 
-        for (int y = 0; y < grid.Height; y++)
-        {
-            for (int x = 0; x < grid.Width; x++)
-            {
-                if (!grid.GetPoint(x, y).HasObstacle)
-                    availableOptions.Add((x, y));
-
-                if (x == guardPos.x && y == guardPos.y) continue;
-            }
-        }
-
-        foreach (var (x, y) in availableOptions)
+        foreach (var (x, y) in GetAvailableBlockers(grid, guardPos))
         {
             grid.SetPoint(x, y, new Point(HasObstacle: true));
 
-            while (!IsOffGrid(grid, guardPos))
+            while (!IsOffGrid(grid, guardPos) && !isStuck)
             {
                 (guardPos, direction) = MoveGuard(grid, guardPos, direction);
-                steps++;
 
-                if (steps == maxSteps) { isStuck = true; break; }
+                steps++;
+                if (steps == maxSteps) { isStuck = true; }
             }
 
             if (isStuck)
