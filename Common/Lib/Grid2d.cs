@@ -8,7 +8,7 @@ public class Grid2d<T>(int width, int height)
 
     public T GetPoint(int x, int y) => _grid[y, x];
     public void SetPoint(int x, int y, T point) => _grid[y, x] = point;
-
+    public bool IsInbounds(int x, int y) => x >= 0 && x < width && y >= 0 && y < height;
     public int Width => _grid.GetLength(0);
     public int Height => _grid.GetLength(1);
 

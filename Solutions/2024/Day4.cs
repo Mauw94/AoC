@@ -3,10 +3,12 @@ using AoC.Common.Lib;
 
 namespace AoC.Solutions._2024;
 
-record Point(char Letter) : IPoint;
+
 
 public class Day4(Day day) : Solution(day)
 {
+    private record Point(char Letter) : IPoint;
+
     public override long PartOne()
     {
         var grid = ParseGrid(Input);
