@@ -1,4 +1,3 @@
-using System.Data;
 using AoC.Common;
 using AoC.Common.Lib;
 
