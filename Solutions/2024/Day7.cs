@@ -5,17 +5,20 @@ namespace AoC.Solutions._2024;
 
 public class Day7(Day day) : Solution(day)
 {
-    static readonly List<string> operators = ["+", "*", "|"];
+    private static List<string> operators = [];
 
     public override long PartOne()
     {
+        operators = ["+", "*"];
         var equations = ParseEquations(Input);
         return CalculateTotalCorrectEquations(equations);
     }
 
     public override long PartTwo()
     {
-        return 0;
+        operators = ["+", "*", "|"];
+        var equations = ParseEquations(Input);
+        return CalculateTotalCorrectEquations(equations);
     }
 
     static long CalculateTotalCorrectEquations(List<(long calibrationResult, List<long> calibrations)> equations)
